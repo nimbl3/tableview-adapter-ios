@@ -14,6 +14,10 @@
 		213436C71FBE81900055B002 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 213436C61FBE81900055B002 /* Assets.xcassets */; };
 		213436CA1FBE81900055B002 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 213436C81FBE81900055B002 /* LaunchScreen.storyboard */; };
 		213436D51FBE81900055B002 /* tableview_adapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213436D41FBE81900055B002 /* tableview_adapterTests.swift */; };
+		213436E31FBE88030055B002 /* ObjectConsuming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213436E21FBE88030055B002 /* ObjectConsuming.swift */; };
+		213436E51FBE884A0055B002 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213436E41FBE884A0055B002 /* Configurable.swift */; };
+		213436E81FBE88960055B002 /* ConfigurableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213436E71FBE88960055B002 /* ConfigurableType.swift */; };
+		213436EA1FBE88D50055B002 /* CellConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213436E91FBE88D50055B002 /* CellConfigurator.swift */; };
 		51C28C52180640B13FA844C9 /* Pods_tableview_adapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AECAEE16898D2BD0E424443B /* Pods_tableview_adapter.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +43,10 @@
 		213436D01FBE81900055B002 /* tableview-adapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tableview-adapterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		213436D41FBE81900055B002 /* tableview_adapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tableview_adapterTests.swift; sourceTree = "<group>"; };
 		213436D61FBE81900055B002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		213436E21FBE88030055B002 /* ObjectConsuming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectConsuming.swift; sourceTree = "<group>"; };
+		213436E41FBE884A0055B002 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
+		213436E71FBE88960055B002 /* ConfigurableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableType.swift; sourceTree = "<group>"; };
+		213436E91FBE88D50055B002 /* CellConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurator.swift; sourceTree = "<group>"; };
 		9B3807C0CBC6002E2E8CCCA7 /* Pods_tableview_adapterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tableview_adapterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECAEE16898D2BD0E424443B /* Pods_tableview_adapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tableview_adapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B88BCB7243AFA6C0036A99E1 /* Pods-tableview-adapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tableview-adapterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tableview-adapterTests/Pods-tableview-adapterTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +108,7 @@
 		213436BE1FBE81900055B002 /* tableview-adapter */ = {
 			isa = PBXGroup;
 			children = (
+				213436E11FBE87F00055B002 /* protocols */,
 				213436E01FBE85170055B002 /* views */,
 				213436DF1FBE85110055B002 /* models */,
 				213436BF1FBE81900055B002 /* AppDelegate.swift */,
@@ -124,6 +133,7 @@
 		213436DF1FBE85110055B002 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				213436E91FBE88D50055B002 /* CellConfigurator.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -133,6 +143,16 @@
 			children = (
 			);
 			path = views;
+			sourceTree = "<group>";
+		};
+		213436E11FBE87F00055B002 /* protocols */ = {
+			isa = PBXGroup;
+			children = (
+				213436E21FBE88030055B002 /* ObjectConsuming.swift */,
+				213436E41FBE884A0055B002 /* Configurable.swift */,
+				213436E71FBE88960055B002 /* ConfigurableType.swift */,
+			);
+			path = protocols;
 			sourceTree = "<group>";
 		};
 		21ABAFEE2815934B6542FBE0 /* Frameworks */ = {
@@ -359,7 +379,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				213436EA1FBE88D50055B002 /* CellConfigurator.swift in Sources */,
+				213436E81FBE88960055B002 /* ConfigurableType.swift in Sources */,
+				213436E31FBE88030055B002 /* ObjectConsuming.swift in Sources */,
 				213436C21FBE81900055B002 /* ViewController.swift in Sources */,
+				213436E51FBE884A0055B002 /* Configurable.swift in Sources */,
 				213436C01FBE81900055B002 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
