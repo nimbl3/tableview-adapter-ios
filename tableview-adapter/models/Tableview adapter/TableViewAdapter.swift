@@ -55,6 +55,18 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
         return makeSignal(action: .willDisplay)
     }()
     
+    private(set) lazy var didEndDisplayingCell: Signal<CellWithIndexPath, NoError> = {
+        return makeSignal(action: .didEndDisplaying)
+    }()
+    
+    private(set) lazy var willSetItem: Signal<CellWithConfiguratorAndIndexPath, NoError> = {
+        return makeSignalWithConfigurator(action: .willSetItem)
+    }()
+    
+    private(set) lazy var didSetItem: Signal<CellWithConfiguratorAndIndexPath, NoError> = {
+        return makeSignalWithConfigurator(action: .didSetItem)
+    }()
+    
     //MARK:- tableview datasource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,7 +77,11 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let configurator = list[indexPath.row]
         let cell = tableView.dequeueReusableCell(configurator.cellClass, for: indexPath)
+        actionPipe.input.send(value: .willSetItem)
+        dataWithConfiguratorPipe.input.send(value: (cell, configurator, indexPath))
         configurator.configure(cell)
+        actionPipe.input.send(value: .didSetItem)
+        dataWithConfiguratorPipe.input.send(value: (cell, configurator, indexPath))
         return cell
     }
     
@@ -83,6 +99,11 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         actionPipe.input.send(value: .willDisplay)
+        dataPipe.input.send(value: (cell, indexPath))
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        actionPipe.input.send(value: .didEndDisplaying)
         dataPipe.input.send(value: (cell, indexPath))
     }
     

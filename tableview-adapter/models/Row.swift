@@ -29,6 +29,11 @@ struct Row<CellType: UITableViewCell>: ConfiguratorType where CellType: Configur
 enum AdapterActionType {
     
     case select
+    
     case willDisplay
+    case didEndDisplaying
+    
+    case willSetItem
+    case didSetItem
     
 }
