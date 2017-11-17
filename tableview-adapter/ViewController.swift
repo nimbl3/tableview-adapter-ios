@@ -17,6 +17,12 @@ class ViewController: UIViewController {
     
     private var tableViewAdapter: TableViewAdapter!
     private var configurators = MutableProperty<[ConfiguratorType]>([])
+    private var dataAdapter = DataAdapter(list: [
+        Row(ImageTableViewCell.self, item: ImageViewModel()),
+        Row(ImageTableViewCell.self, item: ImageViewModel()),
+        Row(TextTableViewCell.self, item: TextViewModel()),
+        Row(TextTableViewCell.self, item: TextViewModel())
+    ])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,14 +38,7 @@ class ViewController: UIViewController {
     }
     
     private func setupTableViewAdapter() {
-        configurators.value = [
-            Row(ImageTableViewCell.self, item: ImageViewModel()),
-            Row(ImageTableViewCell.self, item: ImageViewModel()),
-            Row(TextTableViewCell.self, item: TextViewModel()),
-            Row(TextTableViewCell.self, item: TextViewModel())
-        ]
-        
-        tableViewAdapter = TableViewAdapter(for: tableView, configuratorsList: configurators)
+        tableViewAdapter = TableViewAdapter(for: tableView, dataAdapter: dataAdapter)
         //todo:- make adapter register its cells on init?
         tableViewAdapter.register(ImageTableViewCell.self)
         tableViewAdapter.register(TextTableViewCell.self)
@@ -57,10 +56,9 @@ class ViewController: UIViewController {
             .take(during: reactive.lifetime)
             .observeValues { [unowned self] _ in
                 let newRow = Row(ImageTableViewCell.self, item: ImageViewModel(text: "added image"))
-                self.configurators.value.append(newRow)
+                self.dataAdapter.append(newRow)
+                self.dataAdapter.applyChanges()
         }
     }
     
 }
-
-

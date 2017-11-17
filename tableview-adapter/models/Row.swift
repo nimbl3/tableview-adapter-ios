@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Row<CellType: UITableViewCell>: ConfiguratorType where CellType: Configurable {
+class Row<CellType: UITableViewCell>: ConfiguratorType where CellType: Configurable {
     
     let item: CellType.ItemType
     let cellClass: UITableViewCell.Type // = CellType.self

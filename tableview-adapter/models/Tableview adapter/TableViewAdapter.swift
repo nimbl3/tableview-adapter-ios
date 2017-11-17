@@ -19,13 +19,13 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     private weak var tableView: UITableView!
     
-    var configuratorsList: MutableProperty<[ConfiguratorType]>
+    let dataAdapter: DataAdapter
     
-    var list: [ConfiguratorType] { return configuratorsList.value }
+    var list: [ConfiguratorType] { return dataAdapter.configuratorsList }
     
-    init(for tableView: UITableView, configuratorsList: MutableProperty<[ConfiguratorType]>) {
+    init(for tableView: UITableView, dataAdapter: DataAdapter) {
         self.tableView = tableView
-        self.configuratorsList = configuratorsList
+        self.dataAdapter = dataAdapter
         super.init()
         tableView.delegate = self
         tableView.dataSource = self
@@ -33,11 +33,24 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setup() {
-        configuratorsList.signal
+        dataAdapter.replaceSignal
             .take(during: tableView.reactive.lifetime)
-            .observeValues { [weak self] list in
-                //todo:- use map function to make tableview update only changing cells
+            .observeValues { [weak self] _ in
                 self?.tableView.reloadData()
+        }
+        dataAdapter.changeSignal
+            .take(during: tableView.reactive.lifetime)
+            .observeValues { [weak self] changeset in
+                guard let strongSelf = self else { return }
+                strongSelf.tableView.beginUpdates()
+                
+                strongSelf.tableView.insertRows(at: changeset.indexPaths(type: .insert),
+                                                with: .fade)
+                strongSelf.tableView.reloadRows(at: changeset.indexPaths(type: .update),
+                                                with: .fade)
+                strongSelf.tableView.deleteRows(at: changeset.indexPaths(type: .remove),
+                                                with: .fade)
+                strongSelf.tableView.endUpdates()
         }
     }
     

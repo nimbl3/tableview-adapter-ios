@@ -24,6 +24,7 @@
 		213436F31FBE90DF0055B002 /* UITableView+ReusableNib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213436F21FBE90DF0055B002 /* UITableView+ReusableNib.swift */; };
 		213436F51FBE92500055B002 /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213436F41FBE92500055B002 /* ImageTableViewCell.swift */; };
 		213436F71FBE92610055B002 /* TextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213436F61FBE92610055B002 /* TextTableViewCell.swift */; };
+		21B301E41FBEBCB600A9D01F /* Updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B301E31FBEBCB600A9D01F /* Updater.swift */; };
 		51C28C52180640B13FA844C9 /* Pods_tableview_adapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AECAEE16898D2BD0E424443B /* Pods_tableview_adapter.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		213436F21FBE90DF0055B002 /* UITableView+ReusableNib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+ReusableNib.swift"; sourceTree = "<group>"; };
 		213436F41FBE92500055B002 /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		213436F61FBE92610055B002 /* TextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTableViewCell.swift; sourceTree = "<group>"; };
+		21B301E31FBEBCB600A9D01F /* Updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updater.swift; sourceTree = "<group>"; };
 		9B3807C0CBC6002E2E8CCCA7 /* Pods_tableview_adapterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tableview_adapterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECAEE16898D2BD0E424443B /* Pods_tableview_adapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tableview_adapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B88BCB7243AFA6C0036A99E1 /* Pods-tableview-adapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tableview-adapterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tableview-adapterTests/Pods-tableview-adapterTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				213436EB1FBE8EBB0055B002 /* TableViewAdapter.swift */,
+				21B301E31FBEBCB600A9D01F /* Updater.swift */,
 			);
 			path = "Tableview adapter";
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				213436EF1FBE90A90055B002 /* Reusable.swift in Sources */,
 				213436C21FBE81900055B002 /* ViewController.swift in Sources */,
 				213436E51FBE884A0055B002 /* Configurable.swift in Sources */,
+				21B301E41FBEBCB600A9D01F /* Updater.swift in Sources */,
 				213436C01FBE81900055B002 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

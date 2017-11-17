@@ -8,7 +8,8 @@
 
 import UIKit
 
-protocol ConfiguratorType {
+//todo:- check if we can remove `class`
+protocol ConfiguratorType: class {
     
     var cellClass: UITableViewCell.Type { get }
     
