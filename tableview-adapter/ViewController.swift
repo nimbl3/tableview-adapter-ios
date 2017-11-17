@@ -8,16 +8,30 @@
 
 import UIKit
 import ReactiveSwift
+import ReactiveCocoa
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var button: UIButton!
     
     private var tableViewAdapter: TableViewAdapter!
     private var configurators = MutableProperty<[ConfiguratorType]>([])
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupTableView()
+        setupTableViewAdapter()
+        setupButton()
+    }
+    
+    private func setupTableView() {
+        tableView.tableFooterView = UIView()
+        tableView.layer.cornerRadius = 12.0
+    }
+    
+    private func setupTableViewAdapter() {
         configurators.value = [
             Row(ImageTableViewCell.self, item: ImageViewModel()),
             Row(ImageTableViewCell.self, item: ImageViewModel()),
@@ -29,7 +43,16 @@ class ViewController: UIViewController {
         //todo:- make adapter register its cells on init?
         tableViewAdapter.register(ImageTableViewCell.self)
         tableViewAdapter.register(TextTableViewCell.self)
-        
+    }
+    
+    private func setupButton() {
+        button.layer.cornerRadius = 8.0
+        button.reactive.controlEvents(.touchUpInside)
+            .take(during: reactive.lifetime)
+            .observeValues { [unowned self] _ in
+                let newRow = Row(ImageTableViewCell.self, item: ImageViewModel(text: "added image"))
+                self.configurators.value.append(newRow)
+        }
     }
     
 }

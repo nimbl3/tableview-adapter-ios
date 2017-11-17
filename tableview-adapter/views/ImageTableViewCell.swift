@@ -11,7 +11,6 @@ import UIKit
 struct ImageViewModel {
     
     static var count = 0
-    
     let text: String
     
     init(text: String = "image") {
@@ -24,6 +23,7 @@ struct ImageViewModel {
 class ImageTableViewCell: UITableViewCell, Configurable {
     
     func configure(with item: ImageViewModel) {
+        textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 16.0)
         textLabel?.text = item.text
     }
     

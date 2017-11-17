@@ -30,7 +30,12 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setup() {
-        
+        configuratorsList.signal
+            .take(during: tableView.reactive.lifetime)
+            .observeValues { [weak self] list in
+                //todo:- use map function to make tableview update only changing cells
+                self?.tableView.reloadData()
+        }
     }
     
     //MARK:- tableview datasource

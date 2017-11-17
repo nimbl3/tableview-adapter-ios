@@ -21,6 +21,7 @@ struct TextViewModel {
 class TextTableViewCell: UITableViewCell, Configurable {
     
     func configure(with item: TextViewModel) {
+        textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 16.0)
         textLabel?.text = item.text
     }
     
