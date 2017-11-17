@@ -1,5 +1,5 @@
 //
-//  ConfigurableType.swift
+//  ConfiguratorType.swift
 //  tableview-adapter
 //
 //  Created by Pirush Prechathavanich on 11/17/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ConfigurableType {
+protocol ConfiguratorType {
     
     var cellClass: UITableViewCell.Type { get }
     
