@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import ReactiveSwift
 
 struct ImageViewModel {
     
     static var count = 0
     let text: String
+    let selected: MutableProperty<Bool>
     
     init(text: String = "image") {
         self.text = text + ": \(ImageViewModel.count)"
+        self.selected = MutableProperty<Bool>(false)
         ImageViewModel.count += 1
     }
     
@@ -22,9 +25,19 @@ struct ImageViewModel {
 
 class ImageTableViewCell: UITableViewCell, Configurable {
     
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configure(with item: ImageViewModel) {
         textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 16.0)
         textLabel?.text = item.text
+        textLabel!.reactive.text <~ item.selected.map { $0 ? "selected!" : item.text }
     }
     
 }

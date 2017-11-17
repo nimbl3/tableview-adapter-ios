@@ -12,6 +12,9 @@ import Result
 
 //todo:- conform tableview adapter to scrollview adapter
 
+typealias CellWithIndexPath = (cell: UITableViewCell, indexPath: IndexPath)
+typealias CellWithConfiguratorAndIndexPath = (cell: UITableViewCell, configurator: ConfiguratorType, indexPath: IndexPath)
+
 class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     private weak var tableView: UITableView!
@@ -38,6 +41,20 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    //MARK:- Adapter action signals
+    
+    private let actionPipe = Signal<AdapterActionType, NoError>.pipe()
+    private let dataPipe = Signal<CellWithIndexPath, NoError>.pipe()
+    private let dataWithConfiguratorPipe = Signal<CellWithConfiguratorAndIndexPath, NoError>.pipe()
+    
+    private(set) lazy var didSelectCell: Signal<CellWithConfiguratorAndIndexPath, NoError> = {
+        return makeSignalWithConfigurator(action: .select)
+    }()
+    
+    private(set) lazy var willDisplayCell: Signal<CellWithIndexPath, NoError> = {
+        return makeSignal(action: .willDisplay)
+    }()
+    
     //MARK:- tableview datasource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,8 +76,30 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     //MARK:- tableview delegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        actionPipe.input.send(value: .select)
+        dataWithConfiguratorPipe.input.send(value: (cell, list[indexPath.row], indexPath))
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        actionPipe.input.send(value: .willDisplay)
+        dataPipe.input.send(value: (cell, indexPath))
+    }
+    
+    //MARK:- Private Factory
+    
+    private func makeSignal(action: AdapterActionType) -> Signal<CellWithIndexPath, NoError> {
+        return actionPipe.output
+            .filter { $0 == action }
+            .sample(with: dataPipe.output)
+            .map { ($1.cell, $1.indexPath) }
+    }
+    
+    private func makeSignalWithConfigurator(action: AdapterActionType) -> Signal<CellWithConfiguratorAndIndexPath, NoError> {
+        return actionPipe.output
+            .filter { $0 == action }
+            .sample(with: dataWithConfiguratorPipe.output)
+            .map { $1 }
+    }
     
 }

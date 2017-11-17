@@ -145,8 +145,8 @@
 		213436DF1FBE85110055B002 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				21B301E01FBEA40A00A9D01F /* Tableview adapter */,
 				213436E91FBE88D50055B002 /* Row.swift */,
-				213436EB1FBE8EBB0055B002 /* TableViewAdapter.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -188,6 +188,14 @@
 				9B3807C0CBC6002E2E8CCCA7 /* Pods_tableview_adapterTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		21B301E01FBEA40A00A9D01F /* Tableview adapter */ = {
+			isa = PBXGroup;
+			children = (
+				213436EB1FBE8EBB0055B002 /* TableViewAdapter.swift */,
+			);
+			path = "Tableview adapter";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -20,6 +20,15 @@ struct TextViewModel {
 
 class TextTableViewCell: UITableViewCell, Configurable {
     
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configure(with item: TextViewModel) {
         textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 16.0)
         textLabel?.text = item.text

@@ -43,6 +43,12 @@ class ViewController: UIViewController {
         //todo:- make adapter register its cells on init?
         tableViewAdapter.register(ImageTableViewCell.self)
         tableViewAdapter.register(TextTableViewCell.self)
+        tableViewAdapter.didSelectCell
+            .take(during: tableView.reactive.lifetime)
+            .observeValues { (_, row, _) in
+                guard let item = (row as? Row<ImageTableViewCell>)?.item else { return }
+                item.selected.value = !item.selected.value
+        }
     }
     
     private func setupButton() {
