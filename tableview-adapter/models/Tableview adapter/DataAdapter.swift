@@ -9,6 +9,8 @@
 import ReactiveSwift
 import Result
 
+//todo:- create a Protocol to limit access to this class
+
 class DataAdapter {
     
     typealias Changeset = Differ
@@ -21,10 +23,14 @@ class DataAdapter {
     let changeSignal: Signal<Changeset, NoError>
     let replaceSignal: Signal<Void, NoError>
     
-    init(list: [ConfiguratorType] = []) {
-        sections = [Section(configurators: list)]
+    init(sections: [Section] = []) {
+        self.sections = sections
         changeSignal = changePipe.output
         replaceSignal = replacePipe.output
+    }
+    
+    convenience init(list: [ConfiguratorType]) {
+        self.init(sections: [Section(configurators: list)])
     }
     
     //MARK:- Datasource

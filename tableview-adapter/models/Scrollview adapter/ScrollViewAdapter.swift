@@ -45,6 +45,4 @@ class Section {
         self.configurators = configurators
     }
     
-    
-    
 }

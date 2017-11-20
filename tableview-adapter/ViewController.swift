@@ -17,12 +17,19 @@ class ViewController: UIViewController {
     
     private var tableViewAdapter: TableViewAdapter!
     private var configurators = MutableProperty<[ConfiguratorType]>([])
-    private var dataAdapter = DataAdapter(list: [
-        Row(ImageTableViewCell.self, item: ImageViewModel()),
-        Row(ImageTableViewCell.self, item: ImageViewModel()),
-        Row(TextTableViewCell.self, item: TextViewModel()),
-        Row(TextTableViewCell.self, item: TextViewModel()),
-        Row(TextTableViewCell.self, item: TextViewModel())
+    private var dataAdapter = DataAdapter(sections: [
+        Section(configurators:[
+            Row(ImageTableViewCell.self, item: ImageViewModel()),
+            Row(ImageTableViewCell.self, item: ImageViewModel()),
+            Row(TextTableViewCell.self, item: TextViewModel()),
+            Row(TextTableViewCell.self, item: TextViewModel()),
+            Row(TextTableViewCell.self, item: TextViewModel())
+        ]),
+        Section(configurators:[
+            Row(ImageTableViewCell.self, item: ImageViewModel()),
+            Row(ImageTableViewCell.self, item: ImageViewModel()),
+            Row(TextTableViewCell.self, item: TextViewModel())
+        ])
     ])
     
     override func viewDidLoad() {
