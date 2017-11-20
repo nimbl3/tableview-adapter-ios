@@ -58,7 +58,7 @@ class ViewController: UIViewController {
             .observeValues { [unowned self] _ in
                 let newRow = Row(ImageTableViewCell.self, item: ImageViewModel(text: "added image"))
                 var updatingList = self.dataAdapter.configuratorsList
-                updatingList.remove(at: 3)
+                updatingList.remove(at: 2)
                 updatingList.append(newRow)
                 self.dataAdapter.update(with: updatingList)
         }
