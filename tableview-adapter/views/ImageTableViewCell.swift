@@ -37,7 +37,11 @@ class ImageTableViewCell: UITableViewCell, Configurable {
     func configure(with item: ImageViewModel) {
         textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 16.0)
         textLabel?.text = item.text
-        textLabel!.reactive.text <~ item.selected.map { $0 ? "selected!" : item.text }
+        item.selected.signal
+            .take(until: reactive.prepareForReuse)
+            .observeValues { [unowned self] selected in
+                self.textLabel?.text = selected ? "selected!" : item.text
+        }
     }
     
 }

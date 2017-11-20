@@ -22,6 +22,7 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     let dataAdapter: DataAdapter
     
     var list: [ConfiguratorType] { return dataAdapter.configuratorsList }
+    var rowAnimation: UITableViewRowAnimation = .automatic
     
     init(for tableView: UITableView, dataAdapter: DataAdapter) {
         self.tableView = tableView
@@ -44,11 +45,11 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
                 guard let strongSelf = self else { return }
                 strongSelf.tableView.beginUpdates()
                 strongSelf.tableView.insertRows(at: changeset.indexPaths(of: .insert),
-                                                with: .fade)
+                                                with: strongSelf.rowAnimation)
                 strongSelf.tableView.reloadRows(at: changeset.indexPaths(of: .update),
-                                                with: .fade)
+                                                with: strongSelf.rowAnimation)
                 strongSelf.tableView.deleteRows(at: changeset.indexPaths(of: .remove),
-                                                with: .fade)
+                                                with: strongSelf.rowAnimation)
                 strongSelf.tableView.endUpdates()
         }
     }
