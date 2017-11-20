@@ -56,9 +56,41 @@ class ViewController: UIViewController {
             .take(during: reactive.lifetime)
             .observeValues { [unowned self] _ in
                 let newRow = Row(ImageTableViewCell.self, item: ImageViewModel(text: "added image"))
-                self.dataAdapter.append(newRow)
-                self.dataAdapter.applyChanges()
+//                self.dataAdapter.append(newRow)
+//                self.dataAdapter.applyChanges()
         }
+    }
+    
+}
+
+extension Array {
+    
+    func difference<T: Equatable>(from otherArray: [T]) -> [T] {
+        return self
+            .flatMap { $0 as? T }
+            .filter { !otherArray.contains($0) }
+    }
+    
+    func intersection<T: Equatable>(of otherArray: [T]) -> [T] {
+        return self
+            .flatMap { $0 as? T }
+            .filter { otherArray.contains($0) }
+    }
+    
+    func difference<T>(from otherArray: [T], matchingBlock: (T, T) -> Bool) -> [T] {
+        return self
+            .flatMap { $0 as? T }
+            .filter { element in
+                !otherArray.contains(where: { matchingBlock($0, element) })
+            }
+    }
+    
+    func intersection<T>(of otherArray: [T], matchingBlock: ((T, T) -> Bool)) -> [T] {
+        return self
+            .flatMap { $0 as? T }
+            .filter { element in
+                otherArray.contains(where: { matchingBlock($0, element) })
+            }
     }
     
 }

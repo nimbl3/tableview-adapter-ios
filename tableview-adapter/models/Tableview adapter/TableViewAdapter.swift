@@ -43,12 +43,11 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
             .observeValues { [weak self] changeset in
                 guard let strongSelf = self else { return }
                 strongSelf.tableView.beginUpdates()
-                
-                strongSelf.tableView.insertRows(at: changeset.indexPaths(type: .insert),
+                strongSelf.tableView.insertRows(at: changeset.indexPaths(of: .insert),
                                                 with: .fade)
-                strongSelf.tableView.reloadRows(at: changeset.indexPaths(type: .update),
+                strongSelf.tableView.reloadRows(at: changeset.indexPaths(of: .update),
                                                 with: .fade)
-                strongSelf.tableView.deleteRows(at: changeset.indexPaths(type: .remove),
+                strongSelf.tableView.deleteRows(at: changeset.indexPaths(of: .remove),
                                                 with: .fade)
                 strongSelf.tableView.endUpdates()
         }

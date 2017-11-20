@@ -14,5 +14,14 @@ protocol ConfiguratorType: class {
     var cellClass: UITableViewCell.Type { get }
     
     func configure(_ cell: UITableViewCell)
+    func isEqual(_ configurator: ConfiguratorType) -> Bool
+    
+}
+
+extension ConfiguratorType {
+    
+    func isEqual(_ configurator: ConfiguratorType) -> Bool {
+        return true //todo:- fix!
+    }
     
 }

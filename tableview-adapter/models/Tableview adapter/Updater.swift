@@ -6,8 +6,7 @@
 //  Copyright © 2017 Pirush Prechathavanich. All rights reserved.
 //
 
-import ReactiveSwift
-import Result
+import Foundation
 
 enum AdapterChangeType {
     
@@ -25,6 +24,46 @@ struct ChangeData {
     init(type: AdapterChangeType, at indexPath: IndexPath) {
         self.type = type
         self.indexPath = indexPath
+    }
+    
+}
+
+
+struct Differ<T> {//}<T: Equatable> {
+    
+    let insertions: [Int]
+    let updates: [Int]
+    let deletions: [Int]
+    
+    typealias MatchingBlock = ((T, T) -> Bool)
+    
+    init(oldItems: [T], newItems: [T], matchingBlock: MatchingBlock) {
+        insertions = newItems
+            .difference(from: oldItems, matchingBlock: matchingBlock)
+            .flatMap { item in newItems.index(where: { matchingBlock($0, item) }) }
+        updates = oldItems
+            .intersection(of: newItems, matchingBlock: matchingBlock)
+            .flatMap { item in oldItems.index(where: { matchingBlock($0, item) }) }
+        deletions = oldItems
+            .difference(from: newItems, matchingBlock: matchingBlock)
+            .flatMap { item in oldItems.index(where: { matchingBlock($0, item) }) }
+    }
+    
+//    init(currentItems: [T],
+//         appendingItems: [T]? = nil,
+//         updatingItems: [T]? = nil,
+//         removingItems: [T]? = nil,
+//         matchingBlock: MatchingBlock) {
+//        insertions = currentItems
+//            .
+//    }
+    
+    func indexPaths(of type: AdapterChangeType, section: Int = 0) -> [IndexPath] {
+        switch type {
+        case .insert:       return insertions.map { IndexPath(row: $0, section: section) }
+        case .update:       return updates.map { IndexPath(row: $0, section: section) }
+        case .remove:       return deletions.map { IndexPath(row: $0, section: section) }
+        }
     }
     
 }
