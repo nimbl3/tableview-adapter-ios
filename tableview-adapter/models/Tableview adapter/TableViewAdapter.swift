@@ -21,7 +21,6 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     let dataAdapter: DataAdapter
     
-    var list: [ConfiguratorType] { return dataAdapter.configuratorsList }
     var rowAnimation: UITableViewRowAnimation = .automatic
     
     init(for tableView: UITableView, dataAdapter: DataAdapter) {
@@ -82,13 +81,16 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     //MARK:- tableview datasource
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return dataAdapter.numberOfSections
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //todo:- support Section
-        return list.count
+        return dataAdapter.numberOfRows(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let configurator = list[indexPath.row]
+        let configurator = dataAdapter.configurator(at: indexPath)
         let cell = tableView.dequeueReusableCell(configurator.cellClass, for: indexPath)
         actionPipe.input.send(value: .willSetItem)
         dataWithConfiguratorPipe.input.send(value: (cell, configurator, indexPath))
@@ -107,7 +109,7 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         actionPipe.input.send(value: .select)
-        dataWithConfiguratorPipe.input.send(value: (cell, list[indexPath.row], indexPath))
+        dataWithConfiguratorPipe.input.send(value: (cell, dataAdapter.configurator(at: indexPath), indexPath))
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

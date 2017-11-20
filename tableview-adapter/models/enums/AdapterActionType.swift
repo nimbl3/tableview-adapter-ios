@@ -16,4 +16,11 @@ enum AdapterActionType {
     case willSetItem
     case didSetItem
     
+    // scrollview
+    case didScroll
+    case didBeginDragging
+    case didEndDragging
+    case willBeginDecelerating
+    case didEndDecelerating
+    
 }
