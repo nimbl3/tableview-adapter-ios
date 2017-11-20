@@ -29,34 +29,39 @@ struct ChangeData {
 }
 
 
-struct Differ<T> {//}<T: Equatable> {
+struct Differ {
     
     let insertions: [Int]
     let updates: [Int]
     let deletions: [Int]
     
-    typealias MatchingBlock = ((T, T) -> Bool)
+//    typealias MatchingBlock = ((T, T) -> Bool)
     
-    init(oldItems: [T], newItems: [T], matchingBlock: MatchingBlock) {
+    init<T: AnyObject>(oldItems: [T], newItems: [T], matchingBlock: (T, T) -> Bool) {
         insertions = newItems
-            .difference(from: oldItems, matchingBlock: matchingBlock)
-            .flatMap { item in newItems.index(where: { matchingBlock($0, item) }) }
+            .difference(from: oldItems)
+            .flatMap { item in newItems.index(where: { $0 === item }) }
         updates = oldItems
-            .intersection(of: newItems, matchingBlock: matchingBlock)
+            .intersection(of: newItems)
             .flatMap { item in oldItems.index(where: { matchingBlock($0, item) }) }
         deletions = oldItems
-            .difference(from: newItems, matchingBlock: matchingBlock)
-            .flatMap { item in oldItems.index(where: { matchingBlock($0, item) }) }
+            .difference(from: newItems)
+            .flatMap { item in oldItems.index(where: { $0 === item }) }
     }
     
-//    init(currentItems: [T],
-//         appendingItems: [T]? = nil,
-//         updatingItems: [T]? = nil,
-//         removingItems: [T]? = nil,
-//         matchingBlock: MatchingBlock) {
-//        insertions = currentItems
-//            .
-//    }
+    init(itemsCount: Int,
+         appendingCount: Int = 0,
+         insertions: [Int] = [],
+         updates: [Int] = [],
+         deletions: [Int] = []) {
+        var totalInsertion = insertions
+        for index in itemsCount..<itemsCount+appendingCount {
+            totalInsertion.append(index)
+        }
+        self.insertions = totalInsertion
+        self.updates = updates
+        self.deletions = deletions
+    }
     
     func indexPaths(of type: AdapterChangeType, section: Int = 0) -> [IndexPath] {
         switch type {

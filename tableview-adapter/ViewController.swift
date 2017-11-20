@@ -56,8 +56,11 @@ class ViewController: UIViewController {
             .take(during: reactive.lifetime)
             .observeValues { [unowned self] _ in
                 let newRow = Row(ImageTableViewCell.self, item: ImageViewModel(text: "added image"))
-//                self.dataAdapter.append(newRow)
-//                self.dataAdapter.applyChanges()
+//                self.dataAdapter.append([newRow])
+                var updatingList = self.dataAdapter.configuratorsList
+                updatingList.remove(at: 2)
+                updatingList.append(newRow)
+                self.dataAdapter.update(with: updatingList)
         }
     }
     

@@ -11,7 +11,7 @@ import Result
 
 class DataAdapter {
     
-    typealias Changeset = Differ<ConfiguratorType>
+    typealias Changeset = Differ
     
     private(set) var configuratorsList: [ConfiguratorType]
     
@@ -30,10 +30,17 @@ class DataAdapter {
 //        updater = Updater(itemsCount: list.count)
     }
     
+    func append(_ newConfigurators: [ConfiguratorType]) {
+        let differ = Differ(itemsCount: configuratorsList.count,
+                            appendingCount: newConfigurators.count)
+        configuratorsList = configuratorsList.appended(with: newConfigurators)
+        changePipe.input.send(value: differ)
+    }
+    
     func update(with newConfiguratorsList: [ConfiguratorType]) {
         let differ = Differ(oldItems: configuratorsList,
                             newItems: newConfiguratorsList,
-                            matchingBlock: { $0.isEqual($1) })
+                            matchingBlock: { $0.isEqual(to: $1) })
         configuratorsList = newConfiguratorsList
         changePipe.input.send(value: differ)
     }
