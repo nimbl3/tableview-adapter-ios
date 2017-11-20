@@ -28,25 +28,21 @@ struct ChangeData {
     
 }
 
-
 struct Differ {
     
-    let insertions: [Int]
-    let updates: [Int]
-    let deletions: [Int]
+    let insertions: Set<Int>
+    let updates: Set<Int>
+    let deletions: Set<Int>
     
-//    typealias MatchingBlock = ((T, T) -> Bool)
-    
-    init<T: AnyObject>(oldItems: [T], newItems: [T], matchingBlock: (T, T) -> Bool) {
-        insertions = newItems
+    init<T: AnyObject>(oldItems: [T], newItems: [T]) {
+        insertions = Set(newItems
             .difference(from: oldItems)
-            .flatMap { item in newItems.index(where: { $0 === item }) }
-        updates = oldItems
-            .intersection(of: newItems)
-            .flatMap { item in oldItems.index(where: { matchingBlock($0, item) }) }
-        deletions = oldItems
+            .flatMap { item in newItems.index(where: { $0 === item }) })
+        //todo:- updating is not supported yet. use binding instead (for now)
+        updates = Set<Int>()
+        deletions = Set(oldItems
             .difference(from: newItems)
-            .flatMap { item in oldItems.index(where: { $0 === item }) }
+            .flatMap { item in oldItems.index(where: { $0 === item }) })
     }
     
     init(itemsCount: Int,
@@ -58,9 +54,9 @@ struct Differ {
         for index in itemsCount..<itemsCount+appendingCount {
             totalInsertion.append(index)
         }
-        self.insertions = totalInsertion
-        self.updates = updates
-        self.deletions = deletions
+        self.insertions = Set(totalInsertion)
+        self.updates = Set(updates)
+        self.deletions = Set(deletions)
     }
     
     func indexPaths(of type: AdapterChangeType, section: Int = 0) -> [IndexPath] {

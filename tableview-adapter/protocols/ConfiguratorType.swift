@@ -15,6 +15,5 @@ protocol ConfiguratorType: class {
     var cellClass: UITableViewCell.Type { get }
     
     func configure(_ cell: UITableViewCell)
-    func isEqual(to configurator: ConfiguratorType) -> Bool
     
 }

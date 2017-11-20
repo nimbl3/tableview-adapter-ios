@@ -24,9 +24,4 @@ class Row<CellType: UITableViewCell>: ConfiguratorType where CellType: Configura
         }
     }
     
-    func isEqual(to configurator: ConfiguratorType) -> Bool {
-        guard let configurator = configurator as? Row<CellType> else { return false }
-        return (item as AnyObject) === (configurator.item as AnyObject)
-    }
-    
 }
