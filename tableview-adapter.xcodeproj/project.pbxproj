@@ -27,6 +27,7 @@
 		21B301E41FBEBCB600A9D01F /* Updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B301E31FBEBCB600A9D01F /* Updater.swift */; };
 		21B301E61FC26F7300A9D01F /* AdapterActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B301E51FC26F7300A9D01F /* AdapterActionType.swift */; };
 		21B301EB1FC2724300A9D01F /* DataAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B301EA1FC2724300A9D01F /* DataAdapter.swift */; };
+		21B301EE1FC2B9CE00A9D01F /* Array+LogicalOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B301ED1FC2B9CE00A9D01F /* Array+LogicalOperations.swift */; };
 		51C28C52180640B13FA844C9 /* Pods_tableview_adapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AECAEE16898D2BD0E424443B /* Pods_tableview_adapter.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		21B301E31FBEBCB600A9D01F /* Updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updater.swift; sourceTree = "<group>"; };
 		21B301E51FC26F7300A9D01F /* AdapterActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdapterActionType.swift; sourceTree = "<group>"; };
 		21B301EA1FC2724300A9D01F /* DataAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAdapter.swift; sourceTree = "<group>"; };
+		21B301ED1FC2B9CE00A9D01F /* Array+LogicalOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+LogicalOperations.swift"; sourceTree = "<group>"; };
 		9B3807C0CBC6002E2E8CCCA7 /* Pods_tableview_adapterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tableview_adapterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECAEE16898D2BD0E424443B /* Pods_tableview_adapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tableview_adapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B88BCB7243AFA6C0036A99E1 /* Pods-tableview-adapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tableview-adapterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tableview-adapterTests/Pods-tableview-adapterTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		213436BE1FBE81900055B002 /* tableview-adapter */ = {
 			isa = PBXGroup;
 			children = (
+				21B301EC1FC2B9B900A9D01F /* extensions */,
 				213436E11FBE87F00055B002 /* protocols */,
 				213436E01FBE85170055B002 /* views */,
 				213436DF1FBE85110055B002 /* models */,
@@ -183,7 +186,6 @@
 			children = (
 				213436EE1FBE90A90055B002 /* Reusable.swift */,
 				213436F01FBE90B20055B002 /* Nibable.swift */,
-				213436F21FBE90DF0055B002 /* UITableView+ReusableNib.swift */,
 			);
 			path = "Reusable + Nibable";
 			sourceTree = "<group>";
@@ -213,6 +215,15 @@
 				21B301E51FC26F7300A9D01F /* AdapterActionType.swift */,
 			);
 			path = enums;
+			sourceTree = "<group>";
+		};
+		21B301EC1FC2B9B900A9D01F /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				21B301ED1FC2B9CE00A9D01F /* Array+LogicalOperations.swift */,
+				213436F21FBE90DF0055B002 /* UITableView+ReusableNib.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -431,6 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				213436EA1FBE88D50055B002 /* Row.swift in Sources */,
+				21B301EE1FC2B9CE00A9D01F /* Array+LogicalOperations.swift in Sources */,
 				213436E81FBE88960055B002 /* ConfiguratorType.swift in Sources */,
 				21B301EB1FC2724300A9D01F /* DataAdapter.swift in Sources */,
 				213436F31FBE90DF0055B002 /* UITableView+ReusableNib.swift in Sources */,
