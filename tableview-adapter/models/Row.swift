@@ -25,15 +25,3 @@ class Row<CellType: UITableViewCell>: ConfiguratorType where CellType: Configura
     }
     
 }
-
-enum AdapterActionType {
-    
-    case select
-    
-    case willDisplay
-    case didEndDisplaying
-    
-    case willSetItem
-    case didSetItem
-    
-}
