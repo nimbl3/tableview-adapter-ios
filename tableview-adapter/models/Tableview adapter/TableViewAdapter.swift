@@ -23,7 +23,7 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     var rowHeight: CGFloat? = nil
     var estimatedRowHeight: CGFloat? = nil
-    var rowAnimation: UITableViewRowAnimation = .automatic
+    var rowAnimation: UITableViewRowAnimation = .fade
     
     init(for tableView: UITableView, dataAdapter: DataAdapter) {
         self.tableView = tableView
@@ -45,12 +45,25 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
             .observeValues { [weak self] changeset in
                 guard let strongSelf = self else { return }
                 strongSelf.tableView.beginUpdates()
-                strongSelf.tableView.insertRows(at: changeset.indexPaths2(of: .insert),
+                strongSelf.tableView.insertRows(at: changeset.indexPaths(of: .insert),
                                                 with: strongSelf.rowAnimation)
-                strongSelf.tableView.reloadRows(at: changeset.indexPaths2(of: .update),
+                strongSelf.tableView.reloadRows(at: changeset.indexPaths(of: .update),
                                                 with: strongSelf.rowAnimation)
-                strongSelf.tableView.deleteRows(at: changeset.indexPaths2(of: .remove),
+                strongSelf.tableView.deleteRows(at: changeset.indexPaths(of: .remove),
                                                 with: strongSelf.rowAnimation)
+                strongSelf.tableView.endUpdates()
+        }
+        dataAdapter.sectionChangeSignal
+            .take(during: tableView.reactive.lifetime)
+            .observeValues { [weak self] changeset in
+                guard let strongSelf = self else { return }
+               strongSelf.tableView.beginUpdates()
+                strongSelf.tableView.insertSections(changeset.sections(of: .insert),
+                                                    with: strongSelf.rowAnimation)
+                strongSelf.tableView.reloadSections(changeset.sections(of: .update),
+                                                    with: strongSelf.rowAnimation)
+                strongSelf.tableView.deleteSections(changeset.sections(of: .remove),
+                                                    with: strongSelf.rowAnimation)
                 strongSelf.tableView.endUpdates()
         }
     }

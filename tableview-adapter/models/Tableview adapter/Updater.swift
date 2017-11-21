@@ -1,5 +1,5 @@
 //
-//  Updater.swift
+//  Differ.swift
 //  tableview-adapter
 //
 //  Created by Pirush Prechathavanich on 11/17/17.
@@ -8,19 +8,13 @@
 
 import Foundation
 
-enum AdapterChangeType {
-    
-    case insert
-    case update
-    case remove
-    
-}
-
 struct Differ {
     
     var insertions = Set<IndexPath>()
     var updates = Set<IndexPath>()
     var deletions = Set<IndexPath>()
+    
+    //MARK:- Instantiation
     
     init<T: AnyObject>(oldItems: [T], newItems: [T], section: Int) {
         insertions = Set(newItems
@@ -62,7 +56,9 @@ struct Differ {
         self.deletions = Set(deletions.map { IndexPath($0, in: section) })
     }
     
-    func indexPaths(of type: AdapterChangeType, section: Int = 0) -> [IndexPath] {
+    //MARK:- Output
+    
+    func indexPaths(of type: AdapterChangeType) -> [IndexPath] {
         switch type {
         case .insert:       return insertions.map { $0 }
         case .update:       return updates.map { $0 }
@@ -70,11 +66,11 @@ struct Differ {
         }
     }
     
-    func indexPaths2(of type: AdapterChangeType) -> [IndexPath] {
+    func sections(of type: AdapterChangeType) -> IndexSet {
         switch type {
-        case .insert:       return insertions.map { $0 }
-        case .update:       return updates.map { $0 }
-        case .remove:       return deletions.map { $0 }
+        case .insert:       return IndexSet(insertions.map { $0.section })
+        case .update:       return IndexSet(updates.map { $0.section })
+        case .remove:       return IndexSet(deletions.map { $0.section })
         }
     }
     

@@ -52,7 +52,7 @@ class ViewController: UIViewController {
         setupTableView()
         setupTableViewAdapter()
         setupHeightConfigurator()
-        setupButton()
+        setupButtons()
     }
     
     //MARK:- Private setup
@@ -103,7 +103,7 @@ class ViewController: UIViewController {
         }
     }
     
-    private func setupButton() {
+    private func setupButtons() {
         redButton.layer.cornerRadius = 8.0
         greenButton.layer.cornerRadius = 8.0
         blueButton.layer.cornerRadius = 8.0

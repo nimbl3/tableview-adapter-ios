@@ -93,7 +93,7 @@ class DataAdapter {
     func update(with newSections: [Section]) {
         let differ = Differ(oldSections: sections, newSections: newSections)
         sections = newSections
-        rowChangePipe.input.send(value: differ)
+        sectionChangePipe.input.send(value: differ)
     }
     
     func replace(with newConfiguratorsList: [ConfiguratorType], section: Int) {
