@@ -40,16 +40,16 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
             .observeValues { [weak self] _ in
                 self?.tableView.reloadData()
         }
-        dataAdapter.changeSignal
+        dataAdapter.rowChangeSignal
             .take(during: tableView.reactive.lifetime)
             .observeValues { [weak self] changeset in
                 guard let strongSelf = self else { return }
                 strongSelf.tableView.beginUpdates()
-                strongSelf.tableView.insertRows(at: changeset.indexPaths(of: .insert),
+                strongSelf.tableView.insertRows(at: changeset.indexPaths2(of: .insert),
                                                 with: strongSelf.rowAnimation)
-                strongSelf.tableView.reloadRows(at: changeset.indexPaths(of: .update),
+                strongSelf.tableView.reloadRows(at: changeset.indexPaths2(of: .update),
                                                 with: strongSelf.rowAnimation)
-                strongSelf.tableView.deleteRows(at: changeset.indexPaths(of: .remove),
+                strongSelf.tableView.deleteRows(at: changeset.indexPaths2(of: .remove),
                                                 with: strongSelf.rowAnimation)
                 strongSelf.tableView.endUpdates()
         }

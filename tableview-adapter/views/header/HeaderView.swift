@@ -38,6 +38,14 @@ class HeaderView: UIView {
         return view
     }
     
+    static var gray: HeaderView {
+        let view = UIView.fromNib(HeaderView.self)
+        view.titleLabel.text = "Cached section"
+        view.titleLabel.textColor = .aerialGray
+        view.backgroundColor = .lightAerialGray
+        return view
+    }
+    
     //MARK:- footers
     
     static var redFooter: HeaderView {

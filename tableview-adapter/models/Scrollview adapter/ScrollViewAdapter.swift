@@ -45,4 +45,12 @@ class Section {
         self.configurators = configurators
     }
     
+    func index(of configurator: ConfiguratorType) -> Int? {
+        return configurators.index { $0 === configurator }
+    }
+    
+    func append(_ configurator: ConfiguratorType) {
+        configurators.append(configurator)
+    }
+    
 }

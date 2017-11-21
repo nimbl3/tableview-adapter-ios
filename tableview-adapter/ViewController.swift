@@ -39,6 +39,12 @@ class ViewController: UIViewController {
         ])
     ])
     
+    // for testing purpose, used to test updating sections
+    private var cachedSection: Section = Section(configurators: [
+        Row(ImageTableViewCell.self, item: ImageViewModel(text: "update all image!")),
+        Row(TextTableViewCell.self, item: TextViewModel(text: "update all text!")),
+    ])
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +66,8 @@ class ViewController: UIViewController {
         
         let blueSection = dataAdapter.section(at: 2)
         blueSection.headerView = HeaderView.blue
+        
+        cachedSection.headerView = HeaderView.gray
     }
     
     private func setupTableView() {
@@ -107,7 +115,7 @@ class ViewController: UIViewController {
             .observeValues { [unowned self] _ in self.updateRow(at: 1) }
         blueButton.reactive.controlEvents(.touchUpInside)
             .take(during: reactive.lifetime)
-            .observeValues { [unowned self] _ in self.updateRow(at: 2) }
+            .observeValues { [unowned self] _ in self.updateAll() }
     }
     
     private func updateRow(at section: Int) {
@@ -115,7 +123,16 @@ class ViewController: UIViewController {
         var updatingList = self.dataAdapter.sections[section].configurators
         updatingList.remove(at: 2)
         updatingList.append(newRow)
-        self.dataAdapter.update(with: updatingList, section: section)
+        dataAdapter.update(with: updatingList, section: section)
+    }
+    
+    private func updateAll() {
+        let section = cachedSection
+//        section.append(dataAdapter.configurator(at: IndexPath(row: 1, section: 1)))
+        var updatingSections = dataAdapter.sections
+        cachedSection = dataAdapter.section(at: 1)
+        updatingSections.replaceSubrange(1...1, with: [section])
+        dataAdapter.update(with: updatingSections)
     }
     
 }

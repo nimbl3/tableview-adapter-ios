@@ -17,15 +17,18 @@ class DataAdapter {
     
     private(set) var sections: [Section] = []
     
-    private let changePipe = Signal<Changeset, NoError>.pipe()
+    private let rowChangePipe = Signal<Changeset, NoError>.pipe()
+    private let sectionChangePipe = Signal<Changeset, NoError>.pipe()
     private let replacePipe = Signal<Void, NoError>.pipe()
     
-    let changeSignal: Signal<Changeset, NoError>
+    let rowChangeSignal: Signal<Changeset, NoError>
+    let sectionChangeSignal: Signal<Changeset, NoError>
     let replaceSignal: Signal<Void, NoError>
     
     init(sections: [Section] = []) {
         self.sections = sections
-        changeSignal = changePipe.output
+        rowChangeSignal = rowChangePipe.output
+        sectionChangeSignal = sectionChangePipe.output
         replaceSignal = replacePipe.output
     }
     
@@ -64,26 +67,36 @@ class DataAdapter {
         return titles
     }
     
-    //MARK:- Data updating
+    //MARK:- Data updating - row
     
-    func append(_ newConfigurators: [ConfiguratorType], section: Int = 0) {
-        let section = sections[section]
-        let differ = Differ(itemsCount: section.numberOfConfigurators,
-                            appendingCount: newConfigurators.count)
-        section.configurators.append(contentsOf: newConfigurators)
-        changePipe.input.send(value: differ)
+    func append(_ newConfigurators: [ConfiguratorType], section: Int) {
+        let selectedSection = sections[section]
+        let differ = Differ(itemsCount: selectedSection.numberOfConfigurators,
+                            appendingCount: newConfigurators.count,
+                            section: section)
+        selectedSection.configurators.append(contentsOf: newConfigurators)
+        rowChangePipe.input.send(value: differ)
     }
     
-    func update(with newConfiguratorsList: [ConfiguratorType], section: Int = 0) {
-        let section = sections[section]
+    func update(with newConfiguratorsList: [ConfiguratorType], section: Int) {
+        let selectedSection = sections[section]
         let newItems: [AnyObject] = newConfiguratorsList
-        let differ = Differ(oldItems: section.configurators,
-                            newItems: newItems) //todo:- fix this, hacked to compile
-        section.configurators = newConfiguratorsList
-        changePipe.input.send(value: differ)
+        let differ = Differ(oldItems: selectedSection.configurators,
+                            newItems: newItems,  //todo:- fix this, hacked to compile
+                            section: section)
+        selectedSection.configurators = newConfiguratorsList
+        rowChangePipe.input.send(value: differ)
     }
     
-    func replace(with newConfiguratorsList: [ConfiguratorType], section: Int = 0) {
+    //MARK:- Data updating - section
+    
+    func update(with newSections: [Section]) {
+        let differ = Differ(oldSections: sections, newSections: newSections)
+        sections = newSections
+        rowChangePipe.input.send(value: differ)
+    }
+    
+    func replace(with newConfiguratorsList: [ConfiguratorType], section: Int) {
         sections[section].configurators = newConfiguratorsList
         replacePipe.input.send(value: ())
     }

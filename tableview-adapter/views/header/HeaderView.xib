@@ -27,11 +27,11 @@
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="ew9-EM-BxE"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
-                    <color key="textColor" red="0.48627450980392156" green="0.81568627450980391" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" red="0.81568627450980391" green="0.80466631779952569" blue="0.79976427407939643" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" red="0.93269046197718009" green="0.99508959054946899" blue="0.90438180404888391" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.97489369663403946" green="0.98992422394414181" blue="0.99508959054946899" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="VPL-qD-EHj" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="1YK-sK-Wkw"/>
                 <constraint firstItem="VPL-qD-EHj" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="n1u-Bs-K0v"/>

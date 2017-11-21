@@ -28,4 +28,7 @@ extension UIColor {
     static let conifer: UIColor = .rgba(124, 208, 71)
     static let lightConifer: UIColor = .rgba(246, 255, 240)
     
+    static let aerialGray: UIColor = .rgba(208, 205, 204)
+    static let lightAerialGray: UIColor = .rgba(249, 252, 254)
+    
 }
