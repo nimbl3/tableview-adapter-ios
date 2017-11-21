@@ -43,6 +43,9 @@ class ViewController: UIViewController {
     private func setupTableView() {
         tableView.tableFooterView = UIView()
         tableView.layer.cornerRadius = 12.0
+        tableView.layer.borderWidth = 2.0
+        tableView.layer.borderColor = UIColor.cloudGray.cgColor
+        tableView.separatorColor = .cloudGray
     }
     
     private func setupTableViewAdapter() {
