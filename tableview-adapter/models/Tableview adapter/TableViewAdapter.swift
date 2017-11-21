@@ -21,6 +21,8 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     let dataAdapter: DataAdapter
     
+    var heightConfigurator: HeightConfigurator?
+    
     var rowHeight: CGFloat? = nil
     var estimatedRowHeight: CGFloat? = nil
     var rowAnimation: UITableViewRowAnimation = .fade
@@ -37,8 +39,17 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     private func setup() {
         dataAdapter.replaceSignal
             .take(during: tableView.reactive.lifetime)
-            .observeValues { [weak self] _ in
-                self?.tableView.reloadData()
+            .observeValues { [weak self] reloadType in
+                guard let strongSelf = self else { return }
+                switch reloadType {
+                case .tableView:
+                    strongSelf.tableView.reloadData()
+                case .section(let section):
+                    strongSelf.tableView.beginUpdates()
+                    strongSelf.tableView.reloadSections(IndexSet(integer: section),
+                                                        with: strongSelf.rowAnimation)
+                    strongSelf.tableView.endUpdates()
+                }
         }
         dataAdapter.rowChangeSignal
             .take(during: tableView.reactive.lifetime)
@@ -57,7 +68,7 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
             .take(during: tableView.reactive.lifetime)
             .observeValues { [weak self] changeset in
                 guard let strongSelf = self else { return }
-               strongSelf.tableView.beginUpdates()
+                strongSelf.tableView.beginUpdates()
                 strongSelf.tableView.insertSections(changeset.sections(of: .insert),
                                                     with: strongSelf.rowAnimation)
                 strongSelf.tableView.reloadSections(changeset.sections(of: .update),
@@ -130,8 +141,6 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     }
     
     //MARK:- tableview delegate - height
-    
-    var heightConfigurator: HeightConfigurator?
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let configurator = dataAdapter.configurator(at: indexPath)

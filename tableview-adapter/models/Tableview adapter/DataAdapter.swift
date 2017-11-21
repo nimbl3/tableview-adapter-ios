@@ -9,6 +9,11 @@
 import ReactiveSwift
 import Result
 
+enum ReloadType {
+    case tableView
+    case section(Int)
+}
+
 //todo:- create a Protocol to limit access to this class
 
 class DataAdapter {
@@ -19,11 +24,11 @@ class DataAdapter {
     
     private let rowChangePipe = Signal<Changeset, NoError>.pipe()
     private let sectionChangePipe = Signal<Changeset, NoError>.pipe()
-    private let replacePipe = Signal<Void, NoError>.pipe()
+    private let replacePipe = Signal<ReloadType, NoError>.pipe()
     
     let rowChangeSignal: Signal<Changeset, NoError>
     let sectionChangeSignal: Signal<Changeset, NoError>
-    let replaceSignal: Signal<Void, NoError>
+    let replaceSignal: Signal<ReloadType, NoError>
     
     init(sections: [Section] = []) {
         self.sections = sections
@@ -88,7 +93,18 @@ class DataAdapter {
         rowChangePipe.input.send(value: differ)
     }
     
+    func swap(from fromConfigurator: ConfiguratorType, to toConfigurator: ConfiguratorType, in sections: [Section]) {
+        //todo:- implement
+    }
+    
     //MARK:- Data updating - section
+    
+    func append(_ newSections: [Section]) {
+        let differ = Differ(sectionsCount: numberOfSections,
+                            appendingCount: newSections.count)
+        sections = newSections
+        sectionChangePipe.input.send(value: differ)
+    }
     
     func update(with newSections: [Section]) {
         let differ = Differ(oldSections: sections, newSections: newSections)
@@ -96,9 +112,30 @@ class DataAdapter {
         sectionChangePipe.input.send(value: differ)
     }
     
-    func replace(with newConfiguratorsList: [ConfiguratorType], section: Int) {
+    func swap(from fromSection: Section, to toSection: Section) {
+        guard
+            let fromIndex = sections.index(where: { $0 === fromSection }),
+            let toIndex = sections.index(where: { $0 === toSection })
+        else { return }
+        let differ = Differ(sectionsCount: numberOfSections,
+                            insertions: [fromIndex, toIndex],
+                            deletions: [fromIndex, toIndex])
+        sections.swapAt(fromIndex, toIndex)
+        sectionChangePipe.input.send(value: differ)
+    }
+    
+    //MARK:- Data replacing
+    
+    func replace(with newConfiguratorsList: [ConfiguratorType],
+                 section: Int,
+                 shouldReloadTableView: Bool = false) {
         sections[section].configurators = newConfiguratorsList
-        replacePipe.input.send(value: ())
+        replacePipe.input.send(value: shouldReloadTableView ? .tableView : .section(section))
+    }
+    
+    func replace(with newSections: [Section]) {
+        sections = newSections
+        replacePipe.input.send(value: .tableView)
     }
     
 }

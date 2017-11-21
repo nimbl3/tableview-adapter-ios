@@ -51,9 +51,39 @@ struct Differ {
         for index in itemsCount..<itemsCount+appendingCount {
             totalInsertion.append(index)
         }
+        //todo:- guard input not over itemsCount
         self.insertions = Set(totalInsertion.map { IndexPath($0, in: section) })
         self.updates = Set(updates.map { IndexPath($0, in: section) })
         self.deletions = Set(deletions.map { IndexPath($0, in: section) })
+    }
+    
+    init(sectionsCount: Int,
+         appendingCount: Int = 0,
+         insertions: [Int] = [],
+         updates: [Int] = [],
+         deletions: [Int] = []) {
+        var totalInsertion = insertions
+        for index in sectionsCount..<sectionsCount+appendingCount {
+            totalInsertion.append(index)
+        }
+        //todo:- row 0 is mocked as it's not required, fix!
+        self.insertions = Set(totalInsertion.map { IndexPath(0, in: $0) })
+        self.updates = Set(updates.map { IndexPath(0, in: $0) })
+        self.deletions = Set(deletions.map { IndexPath(0, in: $0) })
+    }
+    
+    //todo:- incomplete, need to find a better way handle swapping real data
+    //       without making it work twice (used to swap row with another row)
+    init?(fromConfigurator: ConfiguratorType,
+          to toConfigurator: ConfiguratorType,
+          in sections: [Section]) {
+        guard
+            let fromIndexPath = sections.indexPath(of: fromConfigurator),
+            let toIndexPath = sections.indexPath(of: toConfigurator)
+        else { return }
+        insertions = Set(arrayLiteral: fromIndexPath, toIndexPath)
+        updates = Set()
+        deletions = Set(arrayLiteral: fromIndexPath, toIndexPath)
     }
     
     //MARK:- Output
