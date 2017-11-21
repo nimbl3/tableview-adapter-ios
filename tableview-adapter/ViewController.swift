@@ -21,12 +21,17 @@ class ViewController: UIViewController {
         Section(configurators:[
             Row(ImageTableViewCell.self, item: ImageViewModel()),
             Row(ImageTableViewCell.self, item: ImageViewModel()),
-            Row(TextTableViewCell.self, item: TextViewModel()),
+            Row(TextTableViewCell.self, item: TextViewModel(text: "BIG (tricked)")),
             Row(TextTableViewCell.self, item: TextViewModel()),
             Row(TextTableViewCell.self, item: TextViewModel())
         ]),
         Section(configurators:[
             Row(ImageTableViewCell.self, item: ImageViewModel()),
+            Row(ImageTableViewCell.self, item: ImageViewModel(text: "BIG")),
+            Row(TextTableViewCell.self, item: TextViewModel())
+        ]),
+        Section(configurators:[
+            Row(ImageTableViewCell.self, item: ImageViewModel(text: "BIG")),
             Row(ImageTableViewCell.self, item: ImageViewModel()),
             Row(TextTableViewCell.self, item: TextViewModel())
         ])
@@ -38,6 +43,7 @@ class ViewController: UIViewController {
         setupSections()
         setupTableView()
         setupTableViewAdapter()
+        setupHeightConfigurator()
         setupButton()
     }
     
@@ -47,7 +53,10 @@ class ViewController: UIViewController {
         let redSection = dataAdapter.section(at: 0)
         redSection.headerView = HeaderView.red
         
-        let blueSection = dataAdapter.section(at: 1)
+        let greenSection = dataAdapter.section(at: 1)
+        greenSection.headerView = HeaderView.green
+        
+        let blueSection = dataAdapter.section(at: 2)
         blueSection.headerView = HeaderView.blue
     }
     
@@ -59,15 +68,27 @@ class ViewController: UIViewController {
         tableView.separatorColor = .cloudGray
     }
     
+    private func setupHeightConfigurator() {
+        let heightConfigurator = RowHeightConfigurator()
+        heightConfigurator.heightBlock = { (configurator, indexPath) -> CGFloat in
+            if let item = configurator.item(of: ImageTableViewCell.self), item.text.contains("BIG") {
+                return 100.0
+            }
+            return UITableViewAutomaticDimension
+        }
+        tableViewAdapter.heightConfigurator = heightConfigurator
+    }
+    
     private func setupTableViewAdapter() {
         tableViewAdapter = TableViewAdapter(for: tableView, dataAdapter: dataAdapter)
+        
         //todo:- make adapter register its cells on init?
         tableViewAdapter.register(ImageTableViewCell.self)
         tableViewAdapter.register(TextTableViewCell.self)
         tableViewAdapter.didSelectCell
             .take(during: tableView.reactive.lifetime)
             .observeValues { (_, row, _) in
-                guard let item = (row as? Row<ImageTableViewCell>)?.item else { return }
+                guard let item = row.item(of: ImageTableViewCell.self) else { return }
                 item.selected.value = !item.selected.value
         }
     }

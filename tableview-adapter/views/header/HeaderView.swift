@@ -28,4 +28,12 @@ class HeaderView: UIView {
         return view
     }
 
+    static var green: HeaderView {
+        let view = UIView.fromNib(HeaderView.self)
+        view.titleLabel.text = "Green section"
+        view.titleLabel.textColor = .conifer
+        view.backgroundColor = .lightConifer
+        return view
+    }
+    
 }

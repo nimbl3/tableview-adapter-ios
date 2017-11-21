@@ -9,11 +9,24 @@
 import UIKit
 
 //todo:- check if we can remove `class`
-@objc
 protocol ConfiguratorType: class {
     
     var cellClass: UITableViewCell.Type { get }
     
+    var height: CGFloat? { get }
+    var estimatedHeight: CGFloat? { get }
+    
     func configure(_ cell: UITableViewCell)
+    
+}
+
+extension ConfiguratorType {
+    
+    func item<T: Configurable & UITableViewCell>(of _: T.Type) -> T.ItemType? {
+        if let item = (self as? Row<T>)?.item {
+            return item
+        }
+        return nil
+    }
     
 }

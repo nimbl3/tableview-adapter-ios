@@ -21,6 +21,8 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     let dataAdapter: DataAdapter
     
+    var rowHeight: CGFloat? = nil
+    var estimatedRowHeight: CGFloat? = nil
     var rowAnimation: UITableViewRowAnimation = .automatic
     
     init(for tableView: UITableView, dataAdapter: DataAdapter) {
@@ -104,7 +106,46 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
         tableView.registerReusableCell(cellClass)
     }
     
+    //MARK:- tableview datasource - index
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return dataAdapter.indexTitles
+    }
+    
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return dataAdapter.sectionForIndexTitles[title] ?? 0
+    }
+    
+    //MARK:- tableview delegate - height
+    
+    var heightConfigurator: HeightConfigurator?
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let configurator = dataAdapter.configurator(at: indexPath)
+        
+        return heightConfigurator?.height(for: configurator, at: indexPath)
+            ?? configurator.height
+            ?? rowHeight
+            ?? tableView.rowHeight
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let configurator = dataAdapter.configurator(at: indexPath)
+        return heightConfigurator?.estimatedHeight(for: configurator, at: indexPath)
+            ?? configurator.estimatedHeight
+            ?? estimatedRowHeight
+            ?? tableView.estimatedRowHeight
+    }
+    
     //MARK:- tableview delegate - section
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return dataAdapter.section(at: section).headerTitle
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return dataAdapter.section(at: section).footerTitle
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return dataAdapter.section(at: section).headerView

@@ -25,4 +25,7 @@ extension UIColor {
     static let jordy: UIColor = .rgba(97, 155, 236)
     static let lightJordy: UIColor = .rgba(246, 250, 255)
     
+    static let conifer: UIColor = .rgba(124, 208, 71)
+    static let lightConifer: UIColor = .rgba(246, 255, 240)
+    
 }

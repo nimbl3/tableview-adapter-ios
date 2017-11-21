@@ -13,6 +13,9 @@ class Row<CellType: UITableViewCell>: ConfiguratorType where CellType: Configura
     let item: CellType.ItemType
     let cellClass: UITableViewCell.Type // = CellType.self
     
+    var height: CGFloat? { return CellType.self.height }
+    var estimatedHeight: CGFloat? { return CellType.self.estimatedHeight }
+    
     init(_ cellClass: CellType.Type, item: CellType.ItemType) {
         self.item = item
         self.cellClass = cellClass

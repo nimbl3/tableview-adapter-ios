@@ -49,6 +49,21 @@ class DataAdapter {
         return sections[indexPath.section].configurators[indexPath.row]
     }
     
+    private(set) var sectionForIndexTitles: [String: Int] = [:]
+    
+    var indexTitles: [String]? {
+        sectionForIndexTitles = [:]
+        var titles: [String] = []
+        sections.enumerated().forEach {
+            if let title = $1.indexTitle {
+                titles.append(title)
+                sectionForIndexTitles[title] = $0
+            }
+        }
+        guard !titles.isEmpty else { return nil }
+        return titles
+    }
+    
     //MARK:- Data updating
     
     func append(_ newConfigurators: [ConfiguratorType], section: Int = 0) {
@@ -61,7 +76,9 @@ class DataAdapter {
     
     func update(with newConfiguratorsList: [ConfiguratorType], section: Int = 0) {
         let section = sections[section]
-        let differ = Differ(oldItems: section.configurators, newItems: newConfiguratorsList)
+        let newItems: [AnyObject] = newConfiguratorsList
+        let differ = Differ(oldItems: section.configurators,
+                            newItems: newItems) //todo:- fix this, hacked to compile
         section.configurators = newConfiguratorsList
         changePipe.input.send(value: differ)
     }
