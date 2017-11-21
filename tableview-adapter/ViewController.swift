@@ -91,7 +91,6 @@ class ViewController: UIViewController {
     
     private func setupTableViewAdapter() {
         tableViewAdapter = TableViewAdapter(for: tableView, dataAdapter: dataAdapter)
-        
         //todo:- make adapter register its cells on init?
         tableViewAdapter.register(ImageTableViewCell.self)
         tableViewAdapter.register(TextTableViewCell.self)
@@ -112,18 +111,24 @@ class ViewController: UIViewController {
             .observeValues { [unowned self] _ in self.updateRow(at: 0) }
         greenButton.reactive.controlEvents(.touchUpInside)
             .take(during: reactive.lifetime)
-            .observeValues { [unowned self] _ in self.updateRow(at: 1) }
+            .observeValues { [unowned self] _ in self.swapSections() }
         blueButton.reactive.controlEvents(.touchUpInside)
             .take(during: reactive.lifetime)
             .observeValues { [unowned self] _ in self.updateAll() }
     }
     
+    //MARK:- Test functions
+    
     private func updateRow(at section: Int) {
         let newRow = Row(ImageTableViewCell.self, item: ImageViewModel(text: "added image"))
-        var updatingList = self.dataAdapter.sections[section].configurators
+        var updatingList = dataAdapter.sections[section].configurators
         updatingList.remove(at: 2)
         updatingList.append(newRow)
         dataAdapter.update(with: updatingList, section: section)
+    }
+    
+    private func swapSections() {
+        dataAdapter.swap(from: dataAdapter.section(at: 0), to: dataAdapter.section(at: 1))
     }
     
     private func updateAll() {

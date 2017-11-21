@@ -170,6 +170,8 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        //todo:- use UIHeaderFooterView instead, wrap? there's a case
+        //       when swapping section if we're not dequeueing it.
         return dataAdapter.section(at: section).headerView
     }
     
