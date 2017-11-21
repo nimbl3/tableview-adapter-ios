@@ -12,6 +12,8 @@ class HeaderView: UIView {
 
     @IBOutlet weak var titleLabel: UILabel!
     
+    //MARK:- headers
+    
     static var red: HeaderView {
         let view = UIView.fromNib(HeaderView.self)
         view.titleLabel.text = "Red section"
@@ -33,6 +35,16 @@ class HeaderView: UIView {
         view.titleLabel.text = "Green section"
         view.titleLabel.textColor = .conifer
         view.backgroundColor = .lightConifer
+        return view
+    }
+    
+    //MARK:- footers
+    
+    static var redFooter: HeaderView {
+        let view = UIView.fromNib(HeaderView.self)
+        view.titleLabel.text = "Red footer"
+        view.titleLabel.textColor = .lightMandy
+        view.backgroundColor = .mandy
         return view
     }
     

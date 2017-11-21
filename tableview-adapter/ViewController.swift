@@ -13,7 +13,9 @@ import ReactiveCocoa
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var redButton: UIButton!
+    @IBOutlet weak var greenButton: UIButton!
+    @IBOutlet weak var blueButton: UIButton!
     
     private var tableViewAdapter: TableViewAdapter!
     private var configurators = MutableProperty<[ConfiguratorType]>([])
@@ -70,7 +72,7 @@ class ViewController: UIViewController {
     
     private func setupHeightConfigurator() {
         let heightConfigurator = RowHeightConfigurator()
-        heightConfigurator.heightBlock = { (configurator, indexPath) -> CGFloat in
+        heightConfigurator.heightBlock = { (configurator, _) -> CGFloat in
             if let item = configurator.item(of: ImageTableViewCell.self), item.text.contains("BIG") {
                 return 100.0
             }
@@ -94,16 +96,26 @@ class ViewController: UIViewController {
     }
     
     private func setupButton() {
-        button.layer.cornerRadius = 8.0
-        button.reactive.controlEvents(.touchUpInside)
+        redButton.layer.cornerRadius = 8.0
+        greenButton.layer.cornerRadius = 8.0
+        blueButton.layer.cornerRadius = 8.0
+        redButton.reactive.controlEvents(.touchUpInside)
             .take(during: reactive.lifetime)
-            .observeValues { [unowned self] _ in
-                let newRow = Row(ImageTableViewCell.self, item: ImageViewModel(text: "added image"))
-                var updatingList = self.dataAdapter.sections[0].configurators
-                updatingList.remove(at: 2)
-                updatingList.append(newRow)
-                self.dataAdapter.update(with: updatingList)
-        }
+            .observeValues { [unowned self] _ in self.updateRow(at: 0) }
+        greenButton.reactive.controlEvents(.touchUpInside)
+            .take(during: reactive.lifetime)
+            .observeValues { [unowned self] _ in self.updateRow(at: 1) }
+        blueButton.reactive.controlEvents(.touchUpInside)
+            .take(during: reactive.lifetime)
+            .observeValues { [unowned self] _ in self.updateRow(at: 2) }
+    }
+    
+    private func updateRow(at section: Int) {
+        let newRow = Row(ImageTableViewCell.self, item: ImageViewModel(text: "added image"))
+        var updatingList = self.dataAdapter.sections[section].configurators
+        updatingList.remove(at: 2)
+        updatingList.append(newRow)
+        self.dataAdapter.update(with: updatingList, section: section)
     }
     
 }

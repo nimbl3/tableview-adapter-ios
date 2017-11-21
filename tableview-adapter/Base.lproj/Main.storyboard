@@ -30,13 +30,37 @@
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kJ6-Jh-SYq">
                                 <rect key="frame" x="143" y="593" width="88" height="44"/>
-                                <color key="backgroundColor" red="0.85613250730000001" green="0.360444814" blue="0.42359879610000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.48771059513092041" green="0.81654214859008789" blue="0.27802872657775879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="88" id="Fjk-1R-zBH"/>
                                     <constraint firstAttribute="height" constant="44" id="h9F-eb-Tfx"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
-                                <state key="normal" title="execute">
+                                <state key="normal" title="green">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mV4-Qi-rtj">
+                                <rect key="frame" x="251" y="593" width="88" height="44"/>
+                                <color key="backgroundColor" red="0.3799249529838562" green="0.60628032684326172" blue="0.92676949501037598" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="HDj-6U-hdU"/>
+                                    <constraint firstAttribute="width" constant="88" id="nSv-a9-spW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
+                                <state key="normal" title="blue">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dGk-aE-occ">
+                                <rect key="frame" x="35" y="593" width="88" height="44"/>
+                                <color key="backgroundColor" red="0.85613250730000001" green="0.360444814" blue="0.42359879610000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="88" id="i79-OV-NRM"/>
+                                    <constraint firstAttribute="height" constant="44" id="o3n-Jg-vrC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
+                                <state key="normal" title="red">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -44,17 +68,23 @@
                         <color key="backgroundColor" red="0.95354799198163209" green="0.95224791747294679" blue="0.97495698085129534" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="mV4-Qi-rtj" firstAttribute="leading" secondItem="kJ6-Jh-SYq" secondAttribute="trailing" constant="20" id="2Kw-pn-sfi"/>
                             <constraint firstItem="kJ6-Jh-SYq" firstAttribute="centerX" secondItem="PKI-ne-dHp" secondAttribute="centerX" id="DkV-70-YpM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PKI-ne-dHp" secondAttribute="trailing" constant="40" id="SSy-LA-0mK"/>
+                            <constraint firstItem="mV4-Qi-rtj" firstAttribute="centerY" secondItem="kJ6-Jh-SYq" secondAttribute="centerY" id="UfX-Ak-eYI"/>
                             <constraint firstItem="PKI-ne-dHp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="Wud-BQ-5j9"/>
                             <constraint firstItem="kJ6-Jh-SYq" firstAttribute="top" secondItem="PKI-ne-dHp" secondAttribute="bottom" constant="30" id="bOf-U9-lUX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="kJ6-Jh-SYq" secondAttribute="bottom" constant="30" id="jwn-Wq-G3Z"/>
+                            <constraint firstItem="kJ6-Jh-SYq" firstAttribute="leading" secondItem="dGk-aE-occ" secondAttribute="trailing" constant="20" id="pv6-yw-Sm3"/>
                             <constraint firstItem="PKI-ne-dHp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="rF1-1C-d14"/>
+                            <constraint firstItem="dGk-aE-occ" firstAttribute="centerY" secondItem="kJ6-Jh-SYq" secondAttribute="centerY" id="svF-ty-zBG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="button" destination="kJ6-Jh-SYq" id="QPJ-bM-mRs"/>
+                        <outlet property="blueButton" destination="mV4-Qi-rtj" id="eAT-zJ-z4M"/>
+                        <outlet property="greenButton" destination="kJ6-Jh-SYq" id="XtM-9z-dY1"/>
+                        <outlet property="redButton" destination="dGk-aE-occ" id="mW4-Fh-nTc"/>
                         <outlet property="tableView" destination="PKI-ne-dHp" id="ZAg-Yo-8AZ"/>
                     </connections>
                 </viewController>
