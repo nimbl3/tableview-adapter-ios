@@ -104,7 +104,27 @@ class TableViewAdapter: NSObject, UITableViewDataSource, UITableViewDelegate {
         tableView.registerReusableCell(cellClass)
     }
     
-    //MARK:- tableview delegate
+    //MARK:- tableview delegate - section
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return dataAdapter.section(at: section).headerView
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return dataAdapter.section(at: section).footerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let section = dataAdapter.section(at: section)
+        return section.headerHeight ?? section.headerView?.frame.height ?? UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        let section = dataAdapter.section(at: section)
+        return section.footerHeight ?? section.footerView?.frame.height ?? UITableViewAutomaticDimension
+    }
+    
+    //MARK:- tableview delegate - actions
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }

@@ -19,4 +19,10 @@ extension UIColor {
     
     static let cloudGray: UIColor = .rgba(231, 232, 240)
     
+    static let mandy: UIColor = .rgba(236, 80, 105)
+    static let lightMandy: UIColor = .rgba(255, 244, 246)
+    
+    static let jordy: UIColor = .rgba(97, 155, 236)
+    static let lightJordy: UIColor = .rgba(246, 250, 255)
+    
 }

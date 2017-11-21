@@ -41,6 +41,10 @@ class DataAdapter {
         return sections[section].numberOfConfigurators
     }
     
+    func section(at section: Int) -> Section {
+        return sections[section]
+    }
+    
     func configurator(at indexPath: IndexPath) -> ConfiguratorType {
         return sections[indexPath.section].configurators[indexPath.row]
     }

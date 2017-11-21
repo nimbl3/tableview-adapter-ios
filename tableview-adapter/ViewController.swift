@@ -35,9 +35,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupSections()
         setupTableView()
         setupTableViewAdapter()
         setupButton()
+    }
+    
+    //MARK:- Private setup
+    
+    private func setupSections() {
+        let redSection = dataAdapter.section(at: 0)
+        redSection.headerView = HeaderView.red
+        
+        let blueSection = dataAdapter.section(at: 1)
+        blueSection.headerView = HeaderView.blue
     }
     
     private func setupTableView() {
