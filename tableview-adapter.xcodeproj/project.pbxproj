@@ -36,6 +36,7 @@
 		21B301FF1FC3DA8200A9D01F /* HeightConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B301FE1FC3DA8200A9D01F /* HeightConfigurator.swift */; };
 		21B302011FC4230D00A9D01F /* IndexPath+Instantiation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B302001FC4230D00A9D01F /* IndexPath+Instantiation.swift */; };
 		21B302031FC423E600A9D01F /* AdapterChangeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B302021FC423E600A9D01F /* AdapterChangeType.swift */; };
+		21B302061FC516A800A9D01F /* DifferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B302051FC516A800A9D01F /* DifferTests.swift */; };
 		51C28C52180640B13FA844C9 /* Pods_tableview_adapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AECAEE16898D2BD0E424443B /* Pods_tableview_adapter.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		21B301FE1FC3DA8200A9D01F /* HeightConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightConfigurator.swift; sourceTree = "<group>"; };
 		21B302001FC4230D00A9D01F /* IndexPath+Instantiation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+Instantiation.swift"; sourceTree = "<group>"; };
 		21B302021FC423E600A9D01F /* AdapterChangeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdapterChangeType.swift; sourceTree = "<group>"; };
+		21B302051FC516A800A9D01F /* DifferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifferTests.swift; sourceTree = "<group>"; };
 		9B3807C0CBC6002E2E8CCCA7 /* Pods_tableview_adapterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tableview_adapterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECAEE16898D2BD0E424443B /* Pods_tableview_adapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tableview_adapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B88BCB7243AFA6C0036A99E1 /* Pods-tableview-adapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tableview-adapterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tableview-adapterTests/Pods-tableview-adapterTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 		213436D31FBE81900055B002 /* tableview-adapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				21B302041FC5165400A9D01F /* model tests */,
 				213436D41FBE81900055B002 /* tableview_adapterTests.swift */,
 				213436D61FBE81900055B002 /* Info.plist */,
 			);
@@ -264,6 +267,14 @@
 				21B301FA1FC3BF8100A9D01F /* HeaderView.xib */,
 			);
 			path = header;
+			sourceTree = "<group>";
+		};
+		21B302041FC5165400A9D01F /* model tests */ = {
+			isa = PBXGroup;
+			children = (
+				21B302051FC516A800A9D01F /* DifferTests.swift */,
+			);
+			path = "model tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,9 +389,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-tableview-adapterTests/Pods-tableview-adapterTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -513,6 +529,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				213436D51FBE81900055B002 /* tableview_adapterTests.swift in Sources */,
+				21B302061FC516A800A9D01F /* DifferTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
