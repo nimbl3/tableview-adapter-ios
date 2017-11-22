@@ -28,3 +28,11 @@ class Row<CellType: UITableViewCell>: ConfiguratorType where CellType: Configura
     }
     
 }
+
+extension Row: Equatable {
+    
+    public static func ==(lhs: Row, rhs: Row) -> Bool {
+        return lhs === rhs
+    }
+    
+}

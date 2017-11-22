@@ -16,6 +16,7 @@ struct Differ {
     
     //MARK:- Instantiation
     
+    //todo:- change from any object to ConfiguratorType instead?
     init<T: AnyObject>(oldItems: [T], newItems: [T], section: Int) {
         insertions = Set(newItems
             .difference(from: oldItems)

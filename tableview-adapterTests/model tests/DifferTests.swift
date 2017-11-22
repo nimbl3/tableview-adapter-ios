@@ -10,7 +10,7 @@ import Quick
 import Nimble
 @testable import tableview_adapter
 
-private extension ConfiguratorType {
+extension ConfiguratorType {
     
     var equatable: AnyEquatableConfigurator {
         return AnyEquatableConfigurator(self)
@@ -69,7 +69,7 @@ class DifferSpec: QuickSpec {
                                     section: 0)
                 let insertions = self.items(from: differ, type: .insert, in: newConfigurators)
                 let deletions = self.items(from: differ, type: .remove, in: oldConfigurators)
-                expect(insertions).to(equal([textRow2.equatable, textRow1.equatable]))
+                expect(insertions) == [textRow2.equatable, textRow1.equatable]
                 expect(deletions).to(contain(imageRow1.equatable))
             }
             
@@ -92,9 +92,9 @@ class DifferSpec: QuickSpec {
                 let deletion1 = IndexPath(0, in: section)
                 let deletion2 = IndexPath(1, in: section)
                 
-                expect(differ.insertions).to(equal([insertion1, insertion2, insertion3]))
-                expect(differ.updates).to(equal([update1, update2]))
-                expect(differ.deletions).to(equal([deletion1, deletion2]))
+                expect(differ.indexPaths(of: .insert)) == [insertion3, insertion1, insertion2]
+                expect(differ.indexPaths(of: .update)) == [update2, update1]
+                expect(differ.indexPaths(of: .remove)) == [deletion1, deletion2]
             }
             
         }
@@ -110,16 +110,40 @@ class DifferSpec: QuickSpec {
             let newSections = [section2, section1, section5]
             
             // expected insertions: section5
-            // expected deletions: section4
+            // expected deletions: section3, section4
             
             it("should have the correct changeset information when comparing") {
                 let differ = Differ(oldSections: oldSections, newSections: newSections)
+                
+                let indexSection3 = 2
                 let indexSection4 = 3
                 let indexSection5 = 2
-                let insertions = differ.sections(of: .insert)
-                let deletions = differ.sections(of: .remove)
-                expect(insertions).to(equal(IndexSet(integer: indexSection5)))
-                expect(deletions).to(equal(IndexSet(integer: indexSection4)))
+                
+                let insertingSections = differ.sections(of: .insert)
+                let deletingSections = differ.sections(of: .remove)
+                
+                expect(insertingSections) == IndexSet(integer: indexSection5)
+                expect(deletingSections) == IndexSet([indexSection3, indexSection4])
+            }
+            
+            it("should have the correct changeset information as input") {
+                let differ = Differ(sectionsCount: oldSections.count,
+                                    appendingCount: 1,
+                                    insertions: [1, 2, 3],
+                                    updates: [0],
+                                    deletions: [1, 2, 3])
+                
+                let insertions = IndexSet([1, 2, 3, oldSections.count])
+                let updates = IndexSet(integer: 0)
+                let deletions = IndexSet([1, 2, 3])
+                
+                let insertingSections = differ.sections(of: .insert)
+                let updatingSections = differ.sections(of: .update)
+                let deletingSections = differ.sections(of: .remove)
+                
+                expect(insertingSections) == insertions
+                expect(updatingSections) == updates
+                expect(deletingSections) == deletions
             }
         }
     }
@@ -142,9 +166,9 @@ class DifferSpec: QuickSpec {
                        type: AdapterChangeType,
                        in configurators: [ConfiguratorType]) -> [AnyEquatableConfigurator] {
         switch type {
-        case .insert:       return differ.insertions.map { configurators[$0.row].equatable }
-        case .update:       return differ.updates.map { configurators[$0.row].equatable }
-        case .remove:       return differ.deletions.map { configurators[$0.row].equatable }
+        case .insert:       return differ.indexPaths(of: .insert).map { configurators[$0.row].equatable }
+        case .update:       return differ.indexPaths(of: .update).map { configurators[$0.row].equatable }
+        case .remove:       return differ.indexPaths(of: .remove).map { configurators[$0.row].equatable }
         }
     }
     

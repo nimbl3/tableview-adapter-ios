@@ -13,6 +13,7 @@ target 'tableview-adapter' do
     # Pods for testing
     pod 'Quick'
     pod 'Nimble'
+    pod 'ReactiveCocoa', '~> 6.0.2'
   end
 
 end
