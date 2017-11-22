@@ -141,6 +141,67 @@ class DataAdapterSpec: QuickSpec {
                     expect(currentList.last) == section
                     expect(currentList).notTo(contain(removedSection))
                 }
+                
+                it("should send a correct changeset information when swapped") {
+                    let fromIndex = 0
+                    let toIndex = 2
+                    let section1 = dataAdapter.section(at: fromIndex)
+                    let section2 = dataAdapter.section(at: toIndex)
+                    
+                    dataAdapter.swap(from: section1, to: section2)
+                    
+                    let insertionResult = sectionChangeResult?.sections(of: .insert)
+                    let deletionResult = sectionChangeResult?.sections(of: .remove)
+                    let currentList = dataAdapter.sections
+                    
+                    expect(insertionResult) == IndexSet([fromIndex, toIndex])
+                    expect(deletionResult) == IndexSet([fromIndex, toIndex])
+                    expect(currentList[fromIndex]) == section2
+                    expect(currentList[toIndex]) == section1
+                }
+            }
+            
+            describe("its replace signal") {
+                
+                beforeEach {
+                    replaceResult = nil
+                }
+                
+                it("should send a section number by default when replacing at a certain section") {
+                    let rows = [self.makeImageRow()]
+                    dataAdapter.replace(with: rows, section: 1)
+                    let result: Bool
+                    switch replaceResult {
+                    case .section(let value)?:  result = (value == 1)
+                    default:                    result = false
+                    }
+                    expect(result) == true
+                    expect(dataAdapter.section(at: 1).configurators as? [Row<ImageTableViewCell>]) == rows
+                }
+                
+                it("should send a table view type when replacing with a section and forcing table view to reload") {
+                    let rows = [self.makeImageRow()]
+                    dataAdapter.replace(with: rows, section: 1, shouldReloadTableView: true)
+                    let result: Bool
+                    switch replaceResult {
+                    case .tableView?:           result = true
+                    default:                    result = false
+                    }
+                    expect(result) == true
+                    expect(dataAdapter.section(at: 1).configurators as? [Row<ImageTableViewCell>]) == rows
+                }
+                
+                it("shoudl send a table view type when replacing with sections") {
+                    let sections = [Section(), Section(), Section()]
+                    dataAdapter.replace(with: sections)
+                    let result: Bool
+                    switch replaceResult {
+                    case .tableView?:           result = true
+                    default:                    result = false
+                    }
+                    expect(result) == true
+                    expect(dataAdapter.sections) == sections
+                }
             }
             
         }
