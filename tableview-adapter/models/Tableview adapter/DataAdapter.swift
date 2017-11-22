@@ -102,7 +102,7 @@ class DataAdapter {
     func append(_ newSections: [Section]) {
         let differ = Differ(sectionsCount: numberOfSections,
                             appendingCount: newSections.count)
-        sections = newSections
+        sections.append(contentsOf: newSections)
         sectionChangePipe.input.send(value: differ)
     }
     

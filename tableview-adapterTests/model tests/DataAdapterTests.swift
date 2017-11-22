@@ -70,15 +70,14 @@ class DataAdapterSpec: QuickSpec {
             }
             
             describe("its row change signal") {
-                
                 let section = 1
                 
                 beforeEach {
-                    sectionChangeResult = nil
+                    rowChangeResult = nil
                 }
                 
                 it("should send a correct changeset information when appended") {
-                    let row = Row(ImageTableViewCell.self, item: ImageViewModel())
+                    let row = self.makeImageRow()
                     let count = dataAdapter.numberOfRows(in: section)
                     dataAdapter.append([row], section: section)
                     let insertionResult = rowChangeResult?.indexPaths(of: .insert)
@@ -88,7 +87,7 @@ class DataAdapterSpec: QuickSpec {
                 }
                 
                 it("should send a correct changeset information when updated") {
-                    let row = Row(ImageTableViewCell.self, item: ImageViewModel())
+                    let row = self.makeImageRow()
                     let count = dataAdapter.numberOfRows(in: section)
                     var updatingList = dataAdapter.section(at: section).configurators
                     let removedConfigurator = updatingList.removeLast() as! Row<ImageTableViewCell>
@@ -108,7 +107,57 @@ class DataAdapterSpec: QuickSpec {
                 
             }
             
+            describe("its section change signal") {
+                
+                beforeEach {
+                    sectionChangeResult = nil
+                }
+                
+                it("should send a correct changeset information when appended") {
+                    let section = Section(configurators: [self.makeImageRow()])
+                    let count = dataAdapter.numberOfSections
+                    dataAdapter.append([section])
+                    let insertionResult = sectionChangeResult?.sections(of: .insert)
+                    
+                    expect(insertionResult) == IndexSet(integer: count)
+                    expect(dataAdapter.sections.last) == section
+                }
+                
+                it("should send a correct changeset information when updated") {
+                    let section = Section(configurators: [self.makeImageRow()])
+                    let count = dataAdapter.numberOfSections
+                    var updatingList = dataAdapter.sections
+                    let removedSection = updatingList.removeFirst()
+                    updatingList.append(section)
+                    
+                    dataAdapter.update(with: updatingList)
+                    
+                    let insertionResult = sectionChangeResult?.sections(of: .insert)
+                    let deletionResult = sectionChangeResult?.sections(of: .remove)
+                    let currentList = dataAdapter.sections
+                    
+                    expect(insertionResult) == IndexSet(integer: count-1)
+                    expect(deletionResult) == IndexSet(integer: 0)
+                    expect(currentList.last) == section
+                    expect(currentList).notTo(contain(removedSection))
+                }
+            }
+            
         }
+    }
+    
+    //MARK:- Private helpers
+    
+    private func makeImageRow(text: String = "image") -> Row<ImageTableViewCell> {
+        return Row(ImageTableViewCell.self, item: ImageViewModel(text: text))
+    }
+    
+}
+
+extension Section: Equatable {
+    
+    public static func ==(lhs: Section, rhs: Section) -> Bool {
+        return lhs === rhs
     }
     
 }
